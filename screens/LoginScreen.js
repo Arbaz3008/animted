@@ -1,36 +1,99 @@
-import React from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import AnimatedBackground from "../components/AnimatedBackground";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Animated,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
+
+const { width } = Dimensions.get("window");
 
 const LoginScreen = ({ navigation }) => {
+  const [bgColor, setBgColor] = useState(new Animated.Value(0));
+  const [formBgColor, setFormBgColor] = useState(new Animated.Value(0));
+  const [buttonColor, setButtonColor] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(bgColor, {
+        toValue: 1,
+        duration: 4000,
+        useNativeDriver: false,
+      })
+    ).start();
+
+    Animated.loop(
+      Animated.timing(formBgColor, {
+        toValue: 1,
+        duration: 4000,
+        useNativeDriver: false,
+      })
+    ).start();
+
+    Animated.loop(
+      Animated.timing(buttonColor, {
+        toValue: 1,
+        duration: 3000,
+        useNativeDriver: false,
+      })
+    ).start();
+  }, []);
+
+  const backgroundColor = bgColor.interpolate({
+    inputRange: [0, 0.25, 0.5, 0.75, 1],
+    outputRange: ["#6dd5ed", "#2193b0", "#cc2b5e", "#753a88", "#1e3c72"],
+  });
+
+  const formBackgroundColor = formBgColor.interpolate({
+    inputRange: [0, 0.25, 0.5, 0.75, 1],
+    outputRange: ["#ffdde1", "#84fab0", "#a1c4fd", "#6a11cb", "#fbc2eb"],
+  });
+
+  const loginButtonColor = buttonColor.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: ["#ff6b81", "#6a11cb", "#2575fc"],
+  });
+
   return (
-    <View style={styles.container}>
-      <AnimatedBackground
-        colors={[
-          ["#ff9a9e", "#fad0c4"], // Top to bottom gradient
-          ["#fbc2eb", "#a6c1ee"], // Diagonal
-          ["#a18cd1", "#fbc2eb"], // Bottom to top
-        ]}
-      />
-      <View style={styles.card}>
+    <Animated.View style={[styles.container, { backgroundColor }]}>
+      <Animated.View style={[styles.card, { backgroundColor: formBackgroundColor }]}>
         <Text style={styles.title}>Login</Text>
-        <TextInput style={styles.input} placeholder="Email" />
-        <TextInput style={styles.input} placeholder="Password" secureTextEntry />
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
+
+        <View style={styles.inputContainer}>
+          <TextInput placeholder="Email" style={styles.input} placeholderTextColor="#aaa" />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Password"
+            style={styles.input}
+            secureTextEntry
+            placeholderTextColor="#aaa"
+          />
+        </View>
+
+        <TouchableOpacity
+          style={[styles.button]}
+          onPress={() => navigation.navigate("ForgetPassword")}
+        >
+          <Text style={{ color: "#888", textAlign: "center" }}>Forgot Password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={styles.link}>Don't have an account? Register</Text>
+
+        <TouchableOpacity
+          style={[styles.button]}
+          onPress={() => navigation.navigate("Register")}
+        >
+          <Animated.Text style={[styles.buttonText, { color: loginButtonColor }]}>
+            Login
+          </Animated.Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("ForgetPassword")}>
-          <Text style={styles.link}>Forgot Password?</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      </Animated.View>
+    </Animated.View>
   );
 };
-
-export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -39,42 +102,44 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   card: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    elevation: 10,
+    width: width * 0.85,
     padding: 20,
-    width: "85%",
+    borderRadius: 15,
     shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 5 },
-    shadowRadius: 10,
+    shadowRadius: 5,
+    elevation: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
-    textAlign: "center",
     marginBottom: 20,
+    textAlign: "center",
+    color: "#333",
+  },
+  inputContainer: {
+    marginBottom: 15,
+    borderRadius: 10,
+    overflow: "hidden",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 5,
+    width: "100%",
     padding: 10,
-    marginBottom: 15,
+    backgroundColor: "white",
+    borderWidth: 0,
+    color: "#333",
   },
   button: {
-    backgroundColor: "#6200ee",
-    padding: 15,
-    borderRadius: 5,
+    marginTop: 20,
+    paddingVertical: 15,
+    borderRadius: 10,
     alignItems: "center",
   },
   buttonText: {
-    color: "#fff",
+    fontSize: 18,
     fontWeight: "bold",
   },
-  link: {
-    color: "#6200ee",
-    textAlign: "center",
-    marginTop: 10,
-  },
 });
+
+export default LoginScreen;
