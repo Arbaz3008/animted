@@ -77,18 +77,25 @@ const LoginScreen = ({ navigation }) => {
 
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate("ForgetPassword")}
-        >
-          <Text style={{ color: "#888", textAlign: "center" }}>Forgot Password?</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button]}
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.navigate("Home")}
         >
           <Animated.Text style={[styles.buttonText, { color: loginButtonColor }]}>
             Login
           </Animated.Text>
+        </TouchableOpacity>
+
+        {/* Forgot Password Link */}
+        <TouchableOpacity onPress={() => navigation.navigate("ForgetPassword")}>
+          <Text style={{ color: "#888", textAlign: "center", marginTop: 10 }}>
+            Forgot Password?
+          </Text>
+        </TouchableOpacity>
+
+        {/* Register Link */}
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text style={{ color: "#6a11cb", textAlign: "center", marginTop: 20 }}>
+            Don't have an account? Register here.
+          </Text>
         </TouchableOpacity>
       </Animated.View>
     </Animated.View>
