@@ -39,6 +39,11 @@ const HomeScreen = ({ navigation }) => {
       >
         <Ionicons name="arrow-back" size={28} color="#fff" />
       </TouchableOpacity>
+      <View style={styles.circle}>
+        <Text style={[styles.circleText, { color: "#FF6F61" }]}>I</Text>
+        <Text style={[styles.circleText, { color: "#6A5ACD" }]}>Love</Text>
+        <Text style={[styles.circleText, { color: "#20B2AA" }]}>You</Text>
+      </View>
 
       {/* Intro Section */}
       <View style={styles.introContainer}>
@@ -57,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
         <Text style={[styles.introText, { color: "#2E8B57" }]}>
           Contact me 
         </Text>
-        <Text style={[styles.introText, { color: "#FF6F61" }]}>
+        <Text style={[styles.introText, { color: "gray" }]}>
           arbazmalik27229@gmail.com
         </Text>
       </View>
@@ -80,8 +85,23 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
   },
+  circle: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    borderWidth: 2,
+    borderColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    marginBottom: 20,
+  },
+  circleText: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   introContainer: {
-    marginTop: 50,
+    marginTop: 20,
     alignItems: "center",
     backgroundColor: "white",
     padding: 20,
